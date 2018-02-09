@@ -3,10 +3,10 @@ import numpy as np
 
 class QNet():
     def __init__(self,sess,in_size,out_size,model_file):
-        self.sess = sess
-        self.model_file = model_file
-        self.build_model(in_size,out_size)
-        self.restore()
+        self.sess = sess #tensor flow session
+        self.model_file = model_file # filename to save the model
+        self.build_model(in_size,out_size) #build network
+        self.restore() #load saved model
 
     def build_model(self,in_size,out_size,hidden_layers=[128,128,128]):
         self.X = tf.placeholder(tf.float32,shape=[in_size,None])
@@ -27,7 +27,7 @@ class QNet():
             ll = l
         W = weight_variable((out_size,ll))
         b = bias_variable((out_size,1))
-        self.Q = tf.matmul(W,Q) + b
+        self.Q = tf.matmul(W,Q) + b #output layer has no activation
         self.loss = tf.losses.mean_squared_error(labels=self.Y,predictions=self.Q)
         self.optimizer = tf.train.AdamOptimizer().minimize(self.loss)
 
@@ -37,7 +37,7 @@ class QNet():
         except:
             self.sess.run(tf.global_variables_initializer())
 
-    def train(self,x_train,y_train,n=10,save=True):
+    def train(self,x_train,y_train,n=1,save=True):
         for i in range(n):
             self.sess.run(self.optimizer,feed_dict={self.X:x_train,self.Y:y_train})
         if save:
@@ -96,10 +96,7 @@ class ActorCriticNet():
     def train(self,s,R,a,n=1,save=True):
         for i in range(n):
             _,A = self.sess.run([self.critic_optimizer,self.A],feed_dict={self.s:s,self.R:R})
-            #print('A=',A)
             _ = self.sess.run(self.actor_optimizer,feed_dict={self.s:s,self.a:a,self.R:R,self.actor_A:A})
-
-            #print('obj=',obj)
         if save:
             self.saver.save(self.sess,self.model_file)
 
