@@ -76,11 +76,13 @@ A recording of `DQN` trained game is shown as follows:
 <img src="images/performance_sarasa_dqn_ac.png" width="400">
 
 Without experience replay, DQN, SARSA, and Actor-critic methods can reach the highest score but are not stable.
+
 ##Asynchronous methods
 
 Asynchronous methods used different actors to explore the environment and update network parameters concurrently. 
 
 ### A3C
+
 The full name of A3C is Asynchronous advantage actor critic methods. The basic idea is Actor-Critic, but parameters are updated aynchronously. The algorithm is as follows:
 
 + There is a global copy of network parameters, build by `A3CNet`. 
@@ -90,6 +92,8 @@ The full name of A3C is Asynchronous advantage actor critic methods. The basic i
 
 2 and 4 actors are better than 1 actor, but when increasing to 8 actors, the performance drops.
 <img src="images/A3C_performance.png" width="400px">
+
+
 
 ##Notes:
 
