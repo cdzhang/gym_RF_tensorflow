@@ -1,4 +1,5 @@
-#Gym games with tensorflow
+# Gym games with tensorflow
+ 
 
 This is an example of implementing reinforcement learning (RL) algorithms in tensorlow to solve gym problems.
 
